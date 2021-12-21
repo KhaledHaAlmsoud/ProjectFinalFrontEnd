@@ -1,10 +1,9 @@
 import React from 'react'
 
-export default function Home() {
+export default function Fav() {
     return (
         <div>
-            <h1>shopping place
-</h1>
+            <h1> me </h1>
         </div>
     )
 }

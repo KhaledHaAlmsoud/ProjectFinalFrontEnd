@@ -1,36 +1,32 @@
-import React from "react";
+import React,{useState} from "react";
+import { Route } from "react-router-dom";
 import "./App.css";
-import { Route} from "react-router-dom";
 
-import Store from './Components/Store'
-import Home from './Components/Home'
-import Navbar from './Components/Navbar'
-import Footer from './Components/Footer'
-import Login from './Components/Login'
-import SignUp from './Components/Signup'
-import Fav from './Components/Fav'
+import signUp from "./componetes/SignUp"
+import Login from './componetes/Login'
+import Navbar from './componetes/Navbar'
+import Home from './componetes/Home'
+import Store from './componetes/Store'
+import Fav from './componetes/Fav'
+
 
 function App() {
-
-
-
+  const [token, setToken] = useState("") 
+ 
   return (
-    <div className="App">
-      <div>
+  <div className="App">
 
-      <Navbar />
-      <Route exact path="/Store" component={Store} /> 
-      <Route exact path="/Home" component={Home} /> 
-      <Route exact path="/Login" component={Login} /> 
-      <Route exact path="/Signup" component={SignUp} /> 
-      <Route exact path="/Fav" component={Fav} /> 
+<Navbar token={token} />
+<Route exact path="/signUp" component={signUp} /> 
+<Route exact path="/home" component={Home} /> 
+<Route exact path="/Login" render={()=>{return <Login changeToken={setToken} />} }/> 
+<Route exact path="/store" component={Store} />
+<Route exact path="/fav" component={Fav} />
+{token}
+
+</div>
 
 
-
-
-      </div>
-    <Footer />
-    </div>
   );
 }
 
