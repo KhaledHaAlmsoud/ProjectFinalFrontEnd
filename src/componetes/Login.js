@@ -33,7 +33,6 @@ const addUser = async ()=> {
         <input placeholder='EnterEmail' onChange={(e)=>setEmail(e.target.value)} />
         <input  placeholder='EnterPassword' onChange={(e)=>setPassword(e.target.value)} />
         <button onClick={()=>{ addUser ()}}> Click LogIn </button> 
-        <Link to="/signUp">  <p> SignUp </p></Link>  
 
         </div>
     )
