@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Fav() {
+export default function Cart () {
     return (
         <div>
             <h1> me </h1>

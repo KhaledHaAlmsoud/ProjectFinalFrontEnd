@@ -13,7 +13,7 @@ export default function Footer() {
   <Card.Body>
     <Card.Title> to Contact Us </Card.Title>
     <Card.Text>
-    E-mail : Store@store.sa  -  Phone : +6995443694 </Card.Text>
+    E-mail : StoreShop@store.sa  -  Phone : +6995443694 </Card.Text>
    <Link to="/Product" > <Button variant="primary"> Back to top </Button> </Link> 
   </Card.Body> 
   <Card.Footer className="text-muted"> repeat it again 🖤 </Card.Footer>

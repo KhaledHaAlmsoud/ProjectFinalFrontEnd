@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link , useHistory } from 'react-router-dom'
 
-export default function Navbar({token , setToken}) {
 
-    const history = useHistory (); 
+
+export default function Navbar({token , setToken}) {
+const history = useHistory (); 
 
     return (
 
@@ -24,7 +25,7 @@ export default function Navbar({token , setToken}) {
             <>
             <Link to="/home"> Home </Link>
             <Link to="/Product"> Product </Link>
-            <Link to="/Fav"> Fav</Link> 
+            <Link to="/Cart"> 🛒 </Link> 
             <div className='signl'>   
             {/* <Link to="/signUp"> Sign Up </Link> 
             <Link to="/login"> login </Link>  */}

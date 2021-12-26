@@ -47,7 +47,7 @@ const history = useHistory();
 
     return (
         <div>
-            <input placeholder='Add Your Name'
+            {/* <input placeholder='Add Your Name'
             onChange={(e)=>{nameValue(e)}} /> 
 
             <input placeholder='Add Your Email'
@@ -60,8 +60,27 @@ const history = useHistory();
             onChange={(e)=>{phoneValue(e)}} />
 
             <button onClick={()=>{addUser()}}> 
-            Click to register </button>
+             </button> */}
 
+           <h3> Don't have an account ? Create account </h3>
+
+
+            <div className="vh-100 d-flex text-light justify-content-center align-items-center ">
+            <div style={{ height:"550px ", borderRadius:"10px "}} className=" p-2 col-md-3 bg-dark text-center pt-3  ">
+                <h6 >User Name </h6>
+                <input placeholder="Add Your Name" onChange={(e)=>{nameValue(e)}} className="form-control mb-5 w-75 m-auto" />
+                <h6> E-mail </h6>
+                <input type="text" placeholder="Add Your Email" onChange={(e)=>{emailValue (e)}} className=" m-auto mb-5 form-control w-75 m-3" />
+                <h6> Password </h6>
+                <input placeholder="Add Your PassWord" onChange={(e)=>{passValue(e)}} className="form-control mb-5 w-75 m-auto" />
+                <h6> Phone Number </h6>
+                <input placeholder="Add Your PhoneNumber" onChange={(e)=>{phoneValue(e)}} className="form-control mb-5 w-75 m-auto" />
+
+                <button className=" btn btn-info px-5 fw-bold py-1" onClick={()=>{addUser()}}> register </button>
+            
+              {/* <Link to="/SignUp">  <p className="mt-2 mb-5"> Don't have an account? Create account</p></Link>   */}
+            </div>
+        </div>
 
 
 

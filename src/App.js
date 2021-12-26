@@ -7,12 +7,14 @@ import Login from './componetes/Login'
 import Navbar from './componetes/Navbar'
 import Home from './componetes/Home'
 import Product from './componetes/Product'
-import Fav from './componetes/Fav'
+import Cart from './componetes/Cart'
 import Footer from './componetes/Footer'
 
 
 function App() {
-  const [token, setToken] = useState("") 
+  const [token, setToken] = useState("")
+  const [userId, setUserId] = useState("") 
+  
   return (
   <div className="App">
     <div>
@@ -20,10 +22,9 @@ function App() {
 <Navbar token={token} setToken = {setToken}/>
 <Route exact path="/signUp" component={signUp} /> 
 <Route exact path="/home" component={Home} /> 
-<Route exact path="/Login" render={()=>{return <Login changeToken={setToken} />} }/> 
-<Route exact path="/Product"  render={()=>{return <Product token={token} />} }/>
-<Route exact path="/fav" component={Fav} />
-{/* <Route exact path="/footer" component={Footer} /> */}
+<Route exact path="/Login" render={()=>{return <Login changeToken={setToken} setUserId = {setUserId}/>} }/> 
+<Route exact path="/Product"  render={()=>{return <Product token={token} userId = {userId}/>} }/>
+<Route exact path="/Cart" component={Cart} />
 
 {/* {token} */}
 
