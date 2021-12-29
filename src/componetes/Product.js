@@ -1,32 +1,36 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {useHistory} from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Card, Button } from "react-bootstrap";
 
-export default function Product({ token , userId}) {
+export default function Product({ token , userId }) {  
   const [product, setProduct] = useState([]);
-
   const [ownerName, setOwnerName] = useState("");
   const [title, setTitle] = useState("");
   const [des, setDes] = useState("");
   const [img, setImg] = useState("");
   const [price, setPrice] = useState("");
-
+  const history = useHistory(); 
+  //
   useEffect(async () => {
     try {
       const result = await axios.get("http://localhost:5000/Product");
       setProduct(result.data);
+      // احفظ القيم اللي جت من الباك اند عن طريق اليوزستيت
       console.log(result.data);
     } catch (error) {
       console.log("Erroooooor !");
     }
   }, []);
 
-  const deleteProduct = async (id, i) => {
+  const deleteProduct = async (id) => { 
     const sendDelete = await axios.delete(
       `http://localhost:5000/Product/${id}`,
+      // id = البرودكت اللي ابي احذفه يكون عن طريق الاي دي 
       {
         headers: { authorization: `Bearer ${token}` },
+        // جبت التوكن من الهيدر , عشان كل يوزر يحذف البرودكت اللي هو ضافه وما اقدر احدد اليوزر الا عن طريق التوكن
       }
     );
     // const copyed = [...product];
@@ -60,6 +64,12 @@ export default function Product({ token , userId}) {
     setProduct(ruslt.data);
   };
 
+  /////////////////////
+
+  const toProduct = (id)=>{
+    history.push(`/OneProduct/${id}`)
+  }
+
   return (
     <div>
       <div className="title">
@@ -72,7 +82,7 @@ export default function Product({ token , userId}) {
           return (
             <div className="boxproduct">
               <Card style={{ width: "18rem" }}>
-                <Card.Img variant="top" src={element.img} />{" "}
+                <Card.Img onClick={()=>{toProduct(element._id)}} variant="top" src={element.img} />{" "}
                 <Card.Body>
                   <Card.Title>{element.name}</Card.Title>
                   <Card.Title>{element.title}</Card.Title>
@@ -86,7 +96,7 @@ export default function Product({ token , userId}) {
                     { element.user._id == userId ? 
                     <Button
                       onClick={() => {
-                        deleteProduct(element._id, i);
+                        deleteProduct(element._id);
                       }}
                       variant="primary"
                     >
@@ -155,7 +165,7 @@ export default function Product({ token , userId}) {
               variant="primary"
             >
               {" "}
-              Submit{" "}
+              Add Product {" "}
             </Button>
           </Card>
         </div>

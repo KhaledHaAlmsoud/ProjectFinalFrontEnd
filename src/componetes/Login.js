@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import axios from 'axios'
 import { Link, useHistory } from 'react-router-dom'
 
-export default function Login({changeToken , setUserId}) {
+export default function Login({ changeToken , setUserId }) {
 
 const [email, setEmail] = useState("")
 const [password, setPassword] = useState("")
@@ -18,6 +18,7 @@ const addUser = async ()=> {
     // اللي يستقبله الباك من الفرونت 
     changeToken(res.data.token);
     setUserId(res.data.userId);
+
     console.log(res.data.userId);
     console.log(res.data.token);
     // ناخذ كامل البيانات , ولا نظهرهم الا للي عنده توكن 
