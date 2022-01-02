@@ -4,11 +4,9 @@ import { useParams } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Card,Button } from "react-bootstrap";
 
-export default function OneProduct({token}) {
-
-    const [product, setProduct] = useState([]);
+export default function OneDevices({token}) {
+const [device, setDevice] = useState([])
     const {id} = useParams();
-
   const [ownerName, setOwnerName] = useState("");
   const [title, setTitle] = useState("");
   const [des, setDes] = useState("");
@@ -17,8 +15,8 @@ export default function OneProduct({token}) {
 
     useEffect( async() => {
         try {
-            const result = await axios.get(`http://localhost:5000/OneProduct/${id}`);
-            setProduct(result.data)
+            const result = await axios.get(`http://localhost:5000/oneDevices/${id}`);
+            setDevice(result.data)
           } catch (error) {
             console.log("Erroooooor !");
           }
@@ -41,26 +39,26 @@ export default function OneProduct({token}) {
 
       const submit = async(id)=>{
       const ruslt = await axios.put(
-       `http://localhost:5000/product/${id}`,
+       `http://localhost:5000/devices/${id}`,
         { ownerName, title, des, img, price },
         { headers: { authorization: `Bearer ${token}` } }
     );
-        setProduct(ruslt.data);
+    setDevice(ruslt.data);
       }
 
 
     return (
         <div>
-            {product?(  <Card style={{ width: "18rem" }}>
+            {device?(  <Card style={{ width: "18rem" }}>
 
-                <Card.Img  variant="top" src={product.img} />
+                <Card.Img  variant="top" src={device.img} />
                 <Card.Body>
-                  <Card.Title>{product.name}</Card.Title>
-                  <Card.Title>{product.title}</Card.Title>
-                  <Card.Text>{product.des}</Card.Text>
+                  <Card.Title>{device.name}</Card.Title>
+                  <Card.Title>{device.title}</Card.Title>
+                  <Card.Text>{device.des}</Card.Text>
                   <div className="infoo" style={{ display: "flex" }}>
                     <h4>
-                      <Card.Text>{product.price}</Card.Text>
+                      <Card.Text>{device.price}</Card.Text>
                     </h4>
                     </div>
                     </Card.Body>
@@ -105,12 +103,12 @@ export default function OneProduct({token}) {
 
             <Button
               onClick={() => {
-                submit(product._id);
+                submit(device._id);
               }}
               variant="primary"
             >
               {" "}
-              Up Date Product {" "} 
+              Up Date device {" "} 
             </Button>
           </Card>
         </div>

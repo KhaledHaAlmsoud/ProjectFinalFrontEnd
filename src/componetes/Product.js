@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Card, Button } from "react-bootstrap";
 
 export default function Product({ token , userId }) {  
+  
   const [product, setProduct] = useState([]);
   const [ownerName, setOwnerName] = useState("");
   const [title, setTitle] = useState("");
@@ -89,8 +90,7 @@ export default function Product({ token , userId }) {
                   <Card.Text>{element.des}</Card.Text>
                   <div className="infoo" style={{ display: "flex" }}>
                     <h4>
-                      {" "}
-                      <Card.Text>{element.price}</Card.Text>{" "}
+                      <Card.Text>{element.price}</Card.Text>
                     </h4>
                     <Button variant="primary"> Buy </Button>
                     { element.user._id == userId ? 
@@ -150,14 +150,6 @@ export default function Product({ token , userId }) {
               }}
             />
 
-            {/* <div class="col-auto my-1">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="autoSizingCheck2"/>
-        <label class="form-check-label" for="autoSizingCheck2">
-          Remember me
-        </label>
-      </div>
-    </div> */}
             <Button
               onClick={() => {
                 submit();

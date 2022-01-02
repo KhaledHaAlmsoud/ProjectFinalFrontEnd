@@ -1,13 +1,23 @@
-import React from 'react'
-import { Link , useHistory } from 'react-router-dom'
+import React,{useState,useEffect} from 'react'
+import { Link  } from 'react-router-dom'
+import axios from 'axios'
+import "./NavBar.css"
+export default function Navbar ({ token , setToken }) {
 
+    const [users, setUser] = useState("")
+    
+      useEffect( async() => {
+      const result = await axios.get("http://localhost:5000/user",
+      {headers: { authorization: "Bearer " + token }})
+    try {
+        setUser(result.data)
+  } catch (error) {
+        console.log(error);
+  }
+  }, [users])
 
-
-export default function Navbar({token , setToken}) {
-const history = useHistory (); 
 
     return (
-
         <div>
             <div className='topnav'>
             {!token ? 
@@ -19,13 +29,21 @@ const history = useHistory ();
             <Link to="/signUp"> Sign Up </Link> 
             <Link to="/login"> login </Link> 
             {/* <Link to="/signUp">Logout</Link> */}
+            
             </div> 
             </>
             : 
             <>
             <Link to="/home"> Home </Link>
             <Link to="/Product"> Product </Link>
+            <Link to="/Devices"> Devices </Link>
+            <Link to="/Clothing"> Clothing </Link>
+            <Link to="/Perfumes"> Perfumes </Link>
             <Link to="/Cart"> 🛒 </Link> 
+
+            <Link  to="/User"> <img className='userImg' src={users.img}  width={"40"} height={"50"}/> </Link>
+
+            {/* <img  src={user.img}/> */}
             <div className='signl'>   
             {/* <Link to="/signUp"> Sign Up </Link> 
             <Link to="/login"> login </Link>  */}
@@ -33,6 +51,7 @@ const history = useHistory ();
             </div>
             </>
             }
+
             {/* {token} */}
 
           

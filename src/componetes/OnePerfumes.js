@@ -4,11 +4,11 @@ import { useParams } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Card,Button } from "react-bootstrap";
 
-export default function OneProduct({token}) {
+export default function OnePerfumes({token}) {
+   
 
-    const [product, setProduct] = useState([]);
-    const {id} = useParams();
-
+const [perfumes, setPerfumes] = useState([])
+ const {id} = useParams();
   const [ownerName, setOwnerName] = useState("");
   const [title, setTitle] = useState("");
   const [des, setDes] = useState("");
@@ -17,8 +17,8 @@ export default function OneProduct({token}) {
 
     useEffect( async() => {
         try {
-            const result = await axios.get(`http://localhost:5000/OneProduct/${id}`);
-            setProduct(result.data)
+            const result = await axios.get(`http://localhost:5000/OnePerfumes/${id}`);
+            setPerfumes(result.data)
           } catch (error) {
             console.log("Erroooooor !");
           }
@@ -41,26 +41,26 @@ export default function OneProduct({token}) {
 
       const submit = async(id)=>{
       const ruslt = await axios.put(
-       `http://localhost:5000/product/${id}`,
+       `http://localhost:5000/Perfumes/${id}`,
         { ownerName, title, des, img, price },
         { headers: { authorization: `Bearer ${token}` } }
     );
-        setProduct(ruslt.data);
+    setPerfumes (ruslt.data);
       }
 
 
     return (
         <div>
-            {product?(  <Card style={{ width: "18rem" }}>
+            {perfumes?(  <Card style={{ width: "18rem" }}>
 
-                <Card.Img  variant="top" src={product.img} />
+                <Card.Img  variant="top" src={perfumes.img} />
                 <Card.Body>
-                  <Card.Title>{product.name}</Card.Title>
-                  <Card.Title>{product.title}</Card.Title>
-                  <Card.Text>{product.des}</Card.Text>
+                  <Card.Title>{perfumes.name}</Card.Title>
+                  <Card.Title>{perfumes.title}</Card.Title>
+                  <Card.Text>{perfumes.des}</Card.Text>
                   <div className="infoo" style={{ display: "flex" }}>
                     <h4>
-                      <Card.Text>{product.price}</Card.Text>
+                      <Card.Text>{perfumes.price}</Card.Text>
                     </h4>
                     </div>
                     </Card.Body>
@@ -105,12 +105,12 @@ export default function OneProduct({token}) {
 
             <Button
               onClick={() => {
-                submit(product._id);
+                submit(perfumes._id);
               }}
               variant="primary"
             >
               {" "}
-              Up Date Product {" "} 
+              Up Date perfumes {" "} 
             </Button>
           </Card>
         </div>
