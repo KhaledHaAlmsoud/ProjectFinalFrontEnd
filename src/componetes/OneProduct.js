@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Card,Button } from "react-bootstrap";
 
-export default function OneProduct({token}) {
+export default function OneProduct({token,userId}) {
 
     const [product, setProduct] = useState([]);
     const {id} = useParams();
@@ -19,6 +19,7 @@ export default function OneProduct({token}) {
         try {
             const result = await axios.get(`http://localhost:5000/OneProduct/${id}`);
             setProduct(result.data)
+            console.log(result.data, userId);
           } catch (error) {
             console.log("Erroooooor !");
           }
@@ -51,7 +52,7 @@ export default function OneProduct({token}) {
 
     return (
         <div>
-            {product?(  <Card style={{ width: "18rem" }}>
+             { product && (  <Card style={{ width: "18rem" }}>
 
                 <Card.Img  variant="top" src={product.img} />
                 <Card.Body>
@@ -63,55 +64,65 @@ export default function OneProduct({token}) {
                       <Card.Text>{product.price}</Card.Text>
                     </h4>
                     </div>
+                   
                     </Card.Body>
-              </Card>):("")}
+              </Card>)}
               <div>
           <Card style={{ width: "18rem" }}>
-            <input
-              type="text"
-              placeholder="Your Name"
-              onChange={(e) => {
-                changeName(e);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Title product"
-              onChange={(e) => {
-                changeTitle(e);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Add Des"
-              onChange={(e) => {
-                changeDes(e);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Add Img"
-              onChange={(e) => {
-                changeImg(e);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Add Price"
-              onChange={(e) => {
-                changePrice(e);
-              }}
-            />
+            
 
-            <Button
-              onClick={() => {
-                submit(product._id);
-              }}
-              variant="primary"
-            >
-              {" "}
-              Up Date Product {" "} 
-            </Button>
+            
+            { product.user && product.user._id == userId ? 
+                   <div>
+                   <input
+                     type="text"
+                     placeholder="Your Name"
+                     onChange={(e) => {
+                       changeName(e);
+                     }}
+                   />
+                   <input
+                     type="text"
+                     placeholder="Title product"
+                     onChange={(e) => {
+                       changeTitle(e);
+                     }}
+                   />
+                   <input
+                     type="text"
+                     placeholder="Add Des"
+                     onChange={(e) => {
+                       changeDes(e);
+                     }}
+                   />
+                   <input
+                     type="text"
+                     placeholder="Add Img"
+                     onChange={(e) => {
+                       changeImg(e);
+                     }}
+                   />
+                   <input
+                     type="text"
+                     placeholder="Add Price"
+                     onChange={(e) => {
+                       changePrice(e);
+                     }}
+                   />
+                    <Button
+                           onClick={() => {
+                             submit(product._id);
+                           }}
+                           variant="primary"
+                         >
+                           
+                           {" "}
+                           Up Date Product {" "} 
+                         </Button> 
+       
+               </div>
+                    : 
+                    ""}
           </Card>
         </div>
     </div>

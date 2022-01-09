@@ -5,13 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Card, Button } from "react-bootstrap";
 
 export default function Product({ token , userId }) {  
-  
   const [product, setProduct] = useState([]);
   const [ownerName, setOwnerName] = useState("");
   const [title, setTitle] = useState("");
   const [des, setDes] = useState("");
   const [img, setImg] = useState("");
   const [price, setPrice] = useState("");
+  const [cart, setCart] = useState(null);
+
   const history = useHistory(); 
   //
   useEffect(async () => {
@@ -37,7 +38,7 @@ export default function Product({ token , userId }) {
     // const copyed = [...product];
     // copyed.splice(i, 1);
     setProduct(sendDelete.data);
-    console.log(sendDelete.data, "Delete !");
+    console.log(sendDelete.data, "Delete !"); 
   };
 
   const changeName = (e) => {
@@ -64,6 +65,16 @@ export default function Product({ token , userId }) {
     );
     setProduct(ruslt.data);
   };
+
+  const addToCart = async (id) => {
+    try {
+      const res = await axios.post(`http://localhost:5000/cart/${id}`,{},
+      { headers: { authorization: `Bearer ${token}` } })
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    } 
+  }
 
   /////////////////////
 
@@ -92,7 +103,7 @@ export default function Product({ token , userId }) {
                     <h4>
                       <Card.Text>{element.price}</Card.Text>
                     </h4>
-                    <Button variant="primary"> Buy </Button>
+                    <Button onClick={()=>{addToCart(element._id)}} variant="primary"> Buy </Button>
                     { element.user._id == userId ? 
                     <Button
                       onClick={() => {

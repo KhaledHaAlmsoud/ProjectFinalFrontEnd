@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { Link  } from 'react-router-dom'
 import axios from 'axios'
 import "./NavBar.css"
-export default function Navbar ({ token , setToken }) {
+export default function Navbar ({ token , setToken ,admin}) {
 
     const [users, setUser] = useState("")
     
@@ -34,7 +34,7 @@ export default function Navbar ({ token , setToken }) {
             </>
             : 
             <>
-            <Link to="/home"> Home </Link>
+            <Link to="/home"> Home </Link> 
             <Link to="/Product"> Product </Link>
             <Link to="/Devices"> Devices </Link>
             <Link to="/Clothing"> Clothing </Link>
