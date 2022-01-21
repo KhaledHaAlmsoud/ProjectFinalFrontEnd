@@ -1,79 +1,107 @@
-import React, {useState,useEffect} from 'react'
-import axios from 'axios';
-export default function Cart ({ token }) {
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import './cart.css'
+export default function Cart({ token }) {
+  const [cart, setCart] = useState([]);
+  const [count, setCount] = useState(0);
+  const [buy, setbuy] = useState(false);
+  const [massege, setmassege] = useState("");
 
-    const [cart, setCart] = useState([]);
-    const [count, setCount] = useState(0);
-
-
-    let increaseCart = ()=>{
-      setCount (count + 1 );
+  useEffect(async () => {
+    try {
+      const result = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/cart`, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      setCart(result.data);
+      // احفظ القيم اللي جت من الباك اند عن طريق اليوزستيت
+      // console.log(result.data);
+    } catch (error) {
+      // console.log("Erroooooor !");
     }
-    let decreaseCart = ()=>{
-      setCount (count - 1 );
+  }, []);
+  ///////////////////////////
+
+  const increaseCart = async (id) => {
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/cart/${id}`,
+        {},
+        { headers: { authorization: `Bearer ${token}` } }
+      );
+      setCart(res.data);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    
-
-    useEffect( async () => { 
-        try {
-          const result = await axios.get("http://localhost:5000/cart",
-          { headers: { authorization: `Bearer ${token}` } });
-          setCart(result.data);
-          // احفظ القيم اللي جت من الباك اند عن طريق اليوزستيت
-          // console.log(result.data);
-        } catch (error) {
-          // console.log("Erroooooor !");
+  const deleteCart = async (id) => {
+    try {
+      const sendDelete = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_URL}/cart/${id}`,
+        // id = البرودكت اللي ابي احذفه يكون عن طريق الاي دي
+        {
+          headers: { authorization: `Bearer ${token}` },
+          // جبت التوكن من الهيدر , عشان كل يوزر يحذف البرودكت اللي هو ضافه وما اقدر احدد اليوزر الا عن طريق التوكن
         }
-    }, [cart]);
+      );
+      setCart(sendDelete.data);
+    } catch (error) {
+      // console.log(sendDelete.data, "Delete !");
+    }
+  };
 
+  const surebuy = (elm) => {
+    setbuy(!buy);
+    setmassege(` Congratulations, you have completed your purchase `); 
+  };
 
+  return (
+    <div>
+      {cart.map((elm, i) => {
+        console.log(elm);
+        return (
+          <div>
+            <div  className="Container" key={i}>
+              <p> {elm.items.ownerName} </p>
+              <img className="cartImg" src={elm.items.img} alr="" />
+              <p> {elm.items.des} </p>
+              <h4> {elm.priceTotal} $</h4> 
 
+              {/* <p> {elm.counter} </p>
+              <h1> {massege}</h1> */}
+             
+              {/* <button class="button-75" role="button"><span class="text">Button 75</span></button> */}
 
-      const deleteCart= async (id)=>{
-        try {
-          const sendDelete = await axios.delete( `http://localhost:5000/cart/${id}`,
-            // id = البرودكت اللي ابي احذفه يكون عن طريق الاي دي 
-            { headers: { authorization: `Bearer ${token}` },
-              // جبت التوكن من الهيدر , عشان كل يوزر يحذف البرودكت اللي هو ضافه وما اقدر احدد اليوزر الا عن طريق التوكن
-            } );
-          setCart(sendDelete.data);
+              <button className="button-75"
+                onClick={() => {
+                  increaseCart(elm.items._id);
+                }}
+              >
 
-        } catch (error) {
-          // console.log(sendDelete.data, "Delete !"); 
-
-        } }; 
-
-
-      
-    return (
-
-        <div>
-
-               { cart.map((elm,i)=>{ 
-                 console.log(elm);
-               return (
-        <div>
-            <div   key={i} >
-                  <p> {elm.items.name} </p>
-                  <img className='cartImg' src= {elm.items.img} alr="" />  
-                  <p> {elm.items.des} </p>
-                  <p> {elm.items.price} </p>
-
-                  <p> {elm.counter} </p>
-                  
-            <button onClick={()=>{increaseCart () }}> + </button> 
-            <h4> Counter </h4>
-            <button onClick={()=>{decreaseCart () }}> - </button> 
-
-            </div>
-                  <button onClick={()=>{deleteCart (elm._id) }}> Delete </button> 
-        </div>    
-        
-        
-             )
-         })}
-            
-        </div>
-    )
+                {" "}
+                +{" "}
+              </button>
+              <p className="button-75"> {elm.counter} </p>
+              
+              <button className="button-75"
+                onClick={() => {
+                  deleteCart(elm._id);
+                }}
+              >
+                {" "}
+                -{" "}
+              </button>
+              </div>
+              <br></br>
+              {/* <p> {elm.counter} </p> */}
+              <button className="button-75 addBtn" onClick={surebuy}> Confirm purchase </button>
+              
+              <h1> {massege}</h1>
+              {/* <button onClick={surebuy}> تاكيد الشراء </button> */}
+            {/* </div> */}
+          </div>
+        );
+      })}
+    </div>
+  );
 }

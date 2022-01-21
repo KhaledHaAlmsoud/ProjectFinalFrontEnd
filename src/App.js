@@ -1,48 +1,57 @@
 import React, { useState, useEffect } from "react";
 import { Route } from "react-router-dom";
 import "./App.css";
-//
+
+///////////////////
 import signUp from "./componetes/SignUp";
 import Login from "./componetes/Login";
-import Navbar from "./componetes/Navbar";
-import Home from "./componetes/Home";
+import Navbar from "./componetes/NavbarV2";
+// import Home from "./componetes/Home";
 import Product from "./componetes/Product";
 import Cart from "./componetes/Cart";
-import Footer from "./componetes/Footer";
+// import Footer from "./componetes/Footer";
 import OneProduct from "./componetes/OneProduct";
 import User from "./componetes/User";
-import Devices from "./componetes/Devices";
-import OneDevices from "./componetes/OneDevices";
-import Clothing from "./componetes/Clothing";
-import OneClothing from "./componetes/OneClothing";
-import Perfumes from "./componetes/Perfumes";
-import OnePerfumes from "./componetes/OnePerfumes";
+import PostProduct from "./componetes/PostProduct"
+require("dotenv").config();
 //
 function App() {
-  const [token, setToken] = useState("");
+  console.log(process.env.REACT_APP_BACKEND_URL,"kh");
+  // const [token, setToken] = useState("rt");
   const [userId, setUserId] = useState("");
-  // const [admin, setAdmin] = useState(false);
-
+  const [admin, setAdmin] = useState(false);
+  const [token, setToken] = useState(() => {
+    const saved = localStorage.getItem("token");
+    const myuserId = localStorage.getItem("userId");
+    const defultValue = JSON.parse(saved,myuserId);
+    return defultValue ;
+  });
   useEffect(() => {
-    if (!token) {
-      const mytoken = JSON.parse(localStorage.getItem("token"));
-      const myuserId = JSON.parse(localStorage.getItem("userId"));
-      setToken(mytoken);
-      setUserId(myuserId);
-    }
+    localStorage.getItem("token", JSON.stringify(token));
+    localStorage.getItem("userId", JSON.stringify(userId));
   }, []);
+  // useEffect(() => {
+  //   if (!token) {
+  //     const mytoken = JSON.parse(localStorage.getItem("token"));
+  //     const myuserId = JSON.parse(localStorage.getItem("userId"));
+  //     setToken(mytoken);
+  //     setUserId(myuserId);
+  //   }
+
+  // }, []);
 
   return (
     <div className="App">
       <div>
         <Navbar token={token} setToken={setToken} />
+        {/* السيت للتغير  */}
         <Route exact path="/signUp" component={signUp} />
-        <Route exact path="/home" component={Home} />
+        {/* <Route exact path="/home" component={Home} /> */}
         <Route
           exact
           path="/Login"
           render={() => {
-            return <Login changeToken={setToken} setUserId={setUserId} />;
+            return <Login changeToken={setToken} setUserId={setUserId} setAdmin={setAdmin}/>;
           }}
         />
         <Route
@@ -52,27 +61,34 @@ function App() {
             return <OneProduct token={token} userId={userId} />;
           }}
         />
-        <Route
+         <Route
+          exact
+          path="/PostProduct"
+          render={() => {
+            return <PostProduct token={token}/>;
+          }}
+        />
+        {/* <Route
           exact
           path="/OneDevices/:id"
           render={() => {
             return <OneDevices token={token} />;
           }}
-        />
-        <Route
+        /> */}
+        {/* <Route
           exact
           path="/OneClothing/:id"
           render={() => {
             return <OneClothing token={token} />;
           }}
-        />
-        <Route
+        /> */}
+        {/* <Route
           exact
           path="/OnePerfumes/:id"
           render={() => {
             return <OnePerfumes token={token} />;
           }}
-        />
+        /> */}
         <Route
           exact
           path="/User"
@@ -82,12 +98,13 @@ function App() {
         />
         <Route
           exact
-          path="/Product"
+          path="/"
           render={() => {
-            return <Product token={token} userId={userId} />;
+            return <Product token={token} userId={userId} admin={admin} />;
+            // عشان ارسلها بدون تعديل 
           }}
         />
-        <Route
+        {/* <Route
           exact
           path="/Devices"
           render={() => {
@@ -107,7 +124,7 @@ function App() {
           render={() => {
             return <Perfumes token={token} userId={userId} />;
           }}
-        />
+        /> */}
         <Route
           exact
           path="/Cart"
@@ -118,7 +135,7 @@ function App() {
 
         {/* {token} */}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
